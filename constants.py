@@ -42,14 +42,14 @@ CONSUMER_CYCLICAL = {
 16: "apparel retail",
 17: "textile manufacturing",
 18: "packaging and containers",
-19: "footware and accessories",
+19: "footwear and accessories",
 20: "personal services",
 21: "department stores",
 22: "internet retail",
 23: "home improvement retail"}
 
-CONSUMER_DEFENSE = {
-1: "food distrobution",
+CONSUMER_DEFENSIVE = {
+1: "food distribution",
 2: "farm products",
 3: "tobacco",
 4: "beverages - wineries and distilleries",
@@ -168,8 +168,8 @@ UTILITIES = {
 #Sectors:
 SECTORS = {"basic materials":BASIC_MATERIALS,
 "communication services":COMMUNICATION_SERVICES,
-"comsumer cyclical":CONSUMER_CYCLICAL,
-"consumer defense":CONSUMER_DEFENSE,
+"consumer cyclical":CONSUMER_CYCLICAL,
+"consumer defensive":CONSUMER_DEFENSIVE,
 "energy":ENERGY,
 "financial":FINANCIAL,
 "healthcare":HEALTHCARE,

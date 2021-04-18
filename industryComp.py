@@ -86,8 +86,8 @@ def ave_PE(industryData):
             #print("PE for " + ticker + " is " + PE)
         #else:
             #print(ticker + " currently has no PE, a negative PE, or is over 50")
-        
-    PEaverage = PEsum/PEcount
+    if PEcount != 0: 
+        PEaverage = PEsum/PEcount
     #print("Industry average P/E: " + str(PEaverage))
     return PEaverage
 
@@ -172,7 +172,7 @@ def TP_TTMPExNYEPS(stockData):
     stockPrice =stockData.loc['Price']['Values']
     stockTTMEPS = stockData.loc['EPS (ttm)']['Values']
         
-    if stockPrice != '-' and stockTTMEPS != '-':
+    if stockPrice != '-' and stockTTMEPS != '-' and float(stockTTMEPS) != 0:
         stockTTMPE = float(stockPrice) / float(stockTTMEPS)
     else:
         print("No Price or ttm EPS data available")
@@ -270,25 +270,12 @@ def eval_stock(stockData, industryPE, ticker):
     growth2 = 100 * (float(stockFprice2) - float(stockPrice)) / float(stockPrice)
     growth3 = 0
     if stockATP != '-':
-        growth3 = 100 * (float(stockATP) - float(stockPrice)) / float(stockPrice)
-    
-    if growth1 != 0:
-        if growth2 != 0:
-            if growth3 != 0:
-                stockGrowth = round((growth1 + growth2 + growth3) / 3, 2)    
-            else:
-                stockGrowth = round((growth1 + growth2) / 2, 2)
-        elif growth3 != 0:
-                stockGrowth = round((growth1 + growth3) / 2, 2)
-        else:
-            stockGrowth = round(growth1, 2)
-    elif growth2 != 0:
-            if growth3 != 0:
-                stockGrowth = round((growth2 + growth3) / 2, 2)
-            else:
-                stockGrowth = stockGrowth = round(growth2, 2)
-    elif growth3 != 0:
-                stockGrowth = round(growth3, 2)
+        growth3 = round(100 * (float(stockATP) - float(stockPrice)) / float(stockPrice), 2)
+        stockGrowth = growth3
+    elif stockFprice2 != '-' and float(stockFprice2) != 0:
+        stockGrowth = growth3
+    elif stockFprice1 != '-' and float(stockFprice1) != 0:
+        stockGrowth = growth1
                 
     return [ticker, stockPrice, stockPE, stockFPE, stockPB, stockRSI, stockFprice1, stockFprice2, stockATP, stockGrowth]
 
@@ -308,10 +295,11 @@ def parse_value(stockArray):
     
     goodStocks = []
     for stock in stockArray:
-        if stock[9] > 0 and float(stock[5]) < 60:
-            if stock[7] != 'NA' and stock[7] != '-' and stock[8] != 'NA' and stock[8] != '-':
-                if (abs((float(stock[8]) - float(stock[7])) / float(stock[8]) * 100) < 15) or float(stock[8]) > float(stock[7]):
-                    goodStocks.append(stock)
+        if stock[9] != '-' and stock[5] != '-':
+            if stock[9] > 0 and float(stock[5]) < 60:
+                if stock[7] != 'NA' and stock[7] != '-' and stock[8] != 'NA' and stock[8] != '-':
+                    if (abs((float(stock[8]) - float(stock[7])) / float(stock[8]) * 100) < 15) or float(stock[8]) > float(stock[7]):
+                        goodStocks.append(stock)
     return goodStocks
 
 
@@ -337,9 +325,9 @@ def industry_req():
         for ind in CONSUMER_CYCLICAL:
             print(str(ind) + ": " + CONSUMER_CYCLICAL[ind])
             
-    elif sector == "consumer defense":
-        for ind in CONSUMER_DEFENSE:
-            print(str(ind) + ": " + CONSUMER_DEFENSE[ind])
+    elif sector == "consumer defensive":
+        for ind in CONSUMER_DEFENSIVE:
+            print(str(ind) + ": " + CONSUMER_DEFENSIVE[ind])
             
     elif sector == "energy":
         for ind in ENERGY:

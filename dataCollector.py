@@ -1,3 +1,6 @@
+#let it be known that some of this code isn't mine - forgot original author
+
+
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup as soup
@@ -70,7 +73,7 @@ def scrape(industryName):
         uglyTickers.add(tag.get('href'))
    
     page = 2
-    while page < 50:
+    while page < 38:
         url = url + "&r=" + str(page) + "1"
         
         try:
